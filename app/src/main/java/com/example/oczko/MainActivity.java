@@ -14,7 +14,7 @@ public class MainActivity extends AppCompatActivity {
     Random rand = new Random();
     Integer[] intArray;
     ImageView card;
-    int[] cardsId = {
+    Integer[] cardsId = {
             R.drawable.karo2,
             R.drawable.kier2,
             R.drawable.trefl2,
@@ -164,16 +164,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void dobierz(View view) {
-        intArray = set.toArray(intArray);
-        int x = (rand.nextInt(intArray.length));
-        set.clear();
-        while (set.size() < intArray.length){
-            set.add((rand.nextInt(intArray.length)));
-        }
-        intArray = set.toArray(intArray);
-        card.setImageResource(intArray[x]);
-        set.remove(intArray[x]);
-        intArray = set.toArray(intArray);
+        //intArray = set.toArray(intArray);
+        int x = (rand.nextInt(cardsId.length));
 
+        card.setImageResource(cardsId[x]);
+        set.remove(cardsId[x]);
+
+        set.clear();
+        while (set.size() < cardsId.length){
+            set.add((rand.nextInt(cardsId.length)));
+        }
+        cardsId = set.toArray(cardsId);
     }
 }
