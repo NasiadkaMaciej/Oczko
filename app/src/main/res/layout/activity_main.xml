@@ -38,6 +38,11 @@
                 android:text="Koniec gry"
                 android:onClick="koniec"
                 android:layout_marginHorizontal="20dp"/>
+            <TextView
+                android:id="@+id/pointsTV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0" />
             <Button
                 android:id="@+id/button1"
                 android:layout_width="wrap_content"
@@ -48,6 +53,4 @@
         </LinearLayout>
 
     </LinearLayout>
-
-
 </RelativeLayout>

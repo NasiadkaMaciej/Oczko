@@ -6,14 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class MainActivity extends AppCompatActivity {
     Random rand = new Random();
-    Integer[] intArray;
     ImageView card;
+    Integer points;
     Integer[] cardsId = {
             R.drawable.karo2,
             R.drawable.kier2,
@@ -35,10 +36,6 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.kier6,
             R.drawable.trefl6,
             R.drawable.pik6,
-            R.drawable.karo7,
-            R.drawable.kier7,
-            R.drawable.trefl7,
-            R.drawable.pik7,
             R.drawable.karo7,
             R.drawable.kier7,
             R.drawable.trefl7,
@@ -104,11 +101,6 @@ public class MainActivity extends AppCompatActivity {
                     R.drawable.trefl7,
                     R.drawable.pik7,
             },
-            {       R.drawable.karo7,
-                    R.drawable.kier7,
-                    R.drawable.trefl7,
-                    R.drawable.pik7,
-            },
             {       R.drawable.karo8,
                     R.drawable.kier8,
                     R.drawable.trefl8,
@@ -145,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
                     R.drawable.pikas,
             }
     };
-    Set<Integer> set = new LinkedHashSet<Integer>();
+    ArrayList<Integer> set = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,27 +145,18 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         card = findViewById(R.id.imageView);
         set.clear();
-        while (set.size() < cardsId.length){
-            set.add((rand.nextInt(cardsId.length)+1));
+        for(int i=0; i<cardsId.length;i++) {
+            set.add(cardsId[i]);
         }
-       intArray = new Integer[set.size()];
-
     }
 
     public void koniec(View view) {
     }
 
     public void dobierz(View view) {
-        //intArray = set.toArray(intArray);
-        int x = (rand.nextInt(cardsId.length));
+        int x = (rand.nextInt(set.size()-1));
 
-        card.setImageResource(cardsId[x]);
-        set.remove(cardsId[x]);
-
-        set.clear();
-        while (set.size() < cardsId.length){
-            set.add((rand.nextInt(cardsId.length)));
-        }
-        cardsId = set.toArray(cardsId);
+        card.setImageResource(set.get(x));
+        set.remove(set.get(x));
     }
 }
