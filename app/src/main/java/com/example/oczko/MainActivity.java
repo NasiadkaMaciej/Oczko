@@ -15,8 +15,8 @@ import java.util.Set;
 public class MainActivity extends AppCompatActivity {
     Random rand = new Random();
     ImageView card;
-    TextView pointTV;
-    Integer points = 0;
+    TextView pointTV, krupierPointsTV;
+    Integer points = 0, krupierPoints=0;
     Integer[] cardsId = {
             R.drawable.karo2,
             R.drawable.kier2,
@@ -125,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
             11};
 
     ArrayList<Integer> set = new ArrayList<Integer>();
+    ArrayList<Integer> asList = new ArrayList<Integer>();
+    ArrayList<Integer> asKrupierList = new ArrayList<Integer>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,27 +134,74 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         card = findViewById(R.id.imageView);
         pointTV = findViewById(R.id.pointsTV);
+        krupierPointsTV = findViewById(R.id.krupierPointsTV);
         set.clear();
-        for(int i=0; i<cardsId.length;i++) {
+        for(int i=0; i<cardsId.length;i++)
             set.add(cardsId[i]);
-        }
     }
 
     public void koniec(View view) {
+        set.clear();
+        for(int i=0; i<cardsId.length;i++)
+            set.add(cardsId[i]);
+        asList.clear();
+        asKrupierList.clear();
+        card.setImageResource(R.drawable.joker1);
+        points=0;
+        krupierPoints=0;
+        pointTV.setText(String.valueOf(points));
+        krupierPointsTV.setText(String.valueOf(krupierPoints));
+
     }
 
     public void dobierz(View view) {
-        if (set.size() > 1) {
+        if(points<21 && asList.size()<2) {
             int x = (rand.nextInt(set.size() - 1));
-            for(int i=0; i<cardsId.length; i++){
-                if(cardsId[i]==set.get(x)){
+            for (int i = 0; i < cardsId.length; i++) {
+                if (cardsId[i] == set.get(x)) {
                     points = points + cardsPoints[i];
                 }
             }
-            pointTV.setText(points);
+            if( set.get(x)==cardsId[48] ||
+                    set.get(x)==cardsId[49] ||
+                    set.get(x)==cardsId[50] ||
+                    set.get(x)==cardsId[51]){
+                asList.add(set.get(x));
+            }
+            pointTV.setText("Twoje punkty: " + points);
             card.setImageResource(set.get(x));
 
             set.remove(set.get(x));
+        }else if(points==21 || asList.size()==2){
+            String message = "";
+            if(points==21) message="Wygrałeś, masz 21 punktów";
+            else if(asList.size()==2) message="Wygrałeś, wyciągnąłeś 2 asy";
+            pointTV.setText(message);
+        }
+    }
+
+    public void dobierzKrupiera(View view) {
+        if(krupierPoints<21 && asKrupierList.size()<2) {
+            int x = (rand.nextInt(set.size() - 1));
+            for (int i = 0; i < cardsId.length; i++) {
+                if (cardsId[i] == set.get(x)) {
+                    krupierPoints = krupierPoints + cardsPoints[i];
+                }
+            }
+            if( set.get(x)==cardsId[48] ||
+                    set.get(x)==cardsId[49] ||
+                    set.get(x)==cardsId[50] ||
+                    set.get(x)==cardsId[51]){
+                asKrupierList.add(set.get(x));
+            }
+            krupierPointsTV.setText("Punkty krupiera: " + krupierPoints);
+
+            set.remove(set.get(x));
+        }else if(krupierPoints==21 || asKrupierList.size()==2){
+            String message = "";
+            if(points==21) message="Krupier wygrał, ma 21 punktów";
+            else if(asList.size()==2) message="Krupier wygrał, wyciągnął 2 asy";
+            pointTV.setText(message);
         }
     }
 }
